@@ -3,7 +3,7 @@ import Login from "../components/Auth/Login";
 import TodoPrivateWrapper from "../components/Todo/TodoPrivateWrapper";
 import TodoPublicWrapper from "../components/Todo/TodoPublicWrapper";
 import OnlineUsersWrapper from "../components/OnlineUsers/OnlineUsersWrapper";
-
+import { withApollo } from "../lib/withApollo";
 import { useFetchUser } from '../lib/user'
 
 const IndexPage = () => { 
@@ -29,6 +29,7 @@ const IndexPage = () => {
         <div className="col-md-3 p-left-right-0">
           <div className="col-md-12 sliderMenu p-30 bg-gray">
             <OnlineUsersWrapper />
+            <p>lflflf</p>
           </div>
         </div>
       </div>
@@ -36,4 +37,4 @@ const IndexPage = () => {
   )
 }
 
-export default IndexPage
+export default withApollo()(IndexPage)

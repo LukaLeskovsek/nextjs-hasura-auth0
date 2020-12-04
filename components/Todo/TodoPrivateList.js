@@ -1,7 +1,18 @@
 import React, { useState, Fragment } from "react";
+import gql from 'graphql-tag';
 
 import TodoItem from "./TodoItem";
 import TodoFilters from "./TodoFilters";
+
+const GET_MY_TODOS = gql`
+query getMyTodos {
+  todos(where: { is_public: { _eq: false} }, order_by: { created_at: desc }) {
+    id
+    title
+    created_at
+    is_completed
+}
+}`;
 
 const TodoPrivateList = props => {
   const [state, setState] = useState({
