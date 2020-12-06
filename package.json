@@ -17,7 +17,7 @@
     "dotenv": "8.2.0",
     "graphql": "^14.6.0",
     "graphql-tag": "2.10.3",
-    "isomorphic-unfetch": "3.0.0",
+    "isomorphic-unfetch": "^3.0.0",
     "next": "9.4.1",
     "nookies": "2.3.1",
     "prop-types": "15.7.2",
@@ -28,6 +28,7 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "babel-plugin-graphql-tag": "2.5.0"
+    "babel-plugin-graphql-tag": "2.5.0",
+    "typescript": "^4.1.2"
   }
 }
