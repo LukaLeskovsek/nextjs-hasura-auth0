@@ -42,13 +42,18 @@ const TodoPrivateList = props => {
       optimisticResponse: true,
       update: (cache, {data}) => {
         const existingTodos = cache.readQuery({ query: GET_MY_TODOS });
-        const newTodos = existingTodos.todos.filter(t => (!t.is_completed));
-        cache.writeQuery({query:GET_MY_TODOS, data: {todos: newTodos}});
+        if(existingTodos){    
+          const newTodos = existingTodos.todos.filter(t => (!t.is_completed));
+          cache.writeQuery({query:GET_MY_TODOS, data: {todos: newTodos}});
+        }
       }
     });
    };
 
   const { todos } = props;
+  if(!todos)
+    return;
+    
   let filteredTodos = todos;
   
   if (state.filter === "active") {

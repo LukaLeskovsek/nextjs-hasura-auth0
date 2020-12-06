@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import OnlineUser from "./OnlineUser";
 
 const OnlineUsersWrapper = () => {
-  const [onlineIndicator, setOnlineIndicator] = useState(60000);
+  const [onlineIndicator, setOnlineIndicator] = useState(0);
   let onlineUsersList;
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const OnlineUsersWrapper = () => {
   const { loading, error, data } = useSubscription(
     gql`
       subscription getOnlineUsers {
-        online_users(order_by: { user: { name: asc } }) {
+        online_users(order_by: {user: {name: asc}, last_seen: asc}) {
           id
           user {
             name
@@ -57,31 +57,30 @@ const OnlineUsersWrapper = () => {
     `
   );
 
-  // const { lo, er, dd } = useQuery(
+  // const { loading, error, data } = useQuery(
   //   gql`
   //   query getOnlineUsers {
   //     online_users(order_by: {user: {name: asc}}) {
   //       id
   //       user {
   //         name
-  //         last_seen
   //       }
   //     }
-  //   }`
+  //   }
+  //   `
   // );
-
 
   if (loading) {
     return <span>Checking online users...</span>;
   }
 
   if (error) {
-    console.error(error);
+  ///  console.error(error);
     return <span>Error!</span>;
   }
 
   if (data) {
-    console.log('DATA:', data);
+    console.table('DATA:', data.online_users);
     onlineUsersList = data.online_users.map(u => (
       <OnlineUser key={u.id} user={u.user} />
     ));
