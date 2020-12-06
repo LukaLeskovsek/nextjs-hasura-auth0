@@ -3,14 +3,15 @@ import Login from "../components/Auth/Login";
 import TodoPrivateWrapper from "../components/Todo/TodoPrivateWrapper";
 import TodoPublicWrapper from "../components/Todo/TodoPublicWrapper";
 import OnlineUsersWrapper from "../components/OnlineUsers/OnlineUsersWrapper";
-
+import { withApollo } from '../lib/withApollo'
 import { useFetchUser } from '../lib/user'
 
 const IndexPage = () => { 
-  const { user, loading } = useFetchUser()
+  const { user, loading} = useFetchUser()
   if(loading) {
-    return <div>Loading...</div>
+    return <div>Loading ...</div>
   }
+
   if (!loading && !user) {
     return <Login />
   }
@@ -36,4 +37,4 @@ const IndexPage = () => {
   )
 }
 
-export default IndexPage
+export default withApollo()(IndexPage)
