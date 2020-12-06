@@ -1,0 +1,29 @@
+version: '3.6'
+services:
+  postgres:
+    image: postgres:12
+    restart: always
+    volumes:
+    - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
+  graphql-engine:
+    image: hasura/graphql-engine:v1.3.3
+    ports:
+    - "8080:8080"
+    depends_on:
+    - "postgres"
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      ## enable the console served by server
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      ## uncomment next line to set an admin secret
+      HASURA_GRAPHQL_ADMIN_SECRET: cgmmUcZdzTZf9kbQPpbZfGLDJcLSvXdjguZG9bKwd6VDRybr6Y
+      HASURA_GRAPHQL_JWT_SECRET: '{"key": "-----BEGIN CERTIFICATE-----\nMIIDEzCCAfugAwIBAgIJWd+YWRWLvMrWMA0GCSqGSIb3DQEBCwUAMCcxJTAjBgNV\nBAMTHHRoZS1hdXRob3JpdHktOC5ldS5hdXRoMC5jb20wHhcNMjAxMjAzMTU1NDAx\nWhcNMzQwODEyMTU1NDAxWjAnMSUwIwYDVQQDExx0aGUtYXV0aG9yaXR5LTguZXUu\nYXV0aDAuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3d87WyK8\noq5p5T7552cYoNqcsEbpqmit0bdryVM24eWCpHxxmhn4kcVgh2zLZKFTvunozYFY\nUCB7gyKkFep+/4VfP0qhYdO5+voINstEXRTkjRQVCvakL9Y+w++vxI2YM7/tbjXF\nT3R6sACwHUKvWVqiaRqtT1HVzTZWZ//8/ABaGaaQlPHKSYsGx5M/88rYLDXbaOpA\nkvAs9Ou8cWVtJBvlhJjEO2pjt/pexcL320EXV5E1sUHMMmeAplXufd8mlynqrmBp\neAKcySTe2/ysplnRTdKENSN44u7peD0PshrC61VFZXfJqgvRHlGdrIKEnsm87IID\n48QpvbNvRWuC2QIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBTp\nDAkRykBxYhXcPuXiEwyVah7/RjAOBgNVHQ8BAf8EBAMCAoQwDQYJKoZIhvcNAQEL\nBQADggEBAJWvjsNK5shhkVK/9/LXZ7sdfX9Xl6hUO9PPOpZN4j93R0dDOjJDxBjN\nv/K+Oid3NIqt0RqBXWD7pXAB2mzTrIbaIR+ceVAh1+Tq47A9E8tSKDHyoXcFTj0b\nO9EElrrerkSPEmwq+rCIATsLzCr07cNHcGtyJlqPGO1lp+eosGyBT1TtJHjztpsG\nKWkAToOfLZPr0G11GAbD8PrSaNtFGw8j71MzltBwawQ9B4iY0jzPdR9rV0UKVGJH\nO9xNuTHVerN0JW7g/Nllp5p0dV5aKGzg9tw+B1yLxO+xmB+6YVMiNIDVtdbF5gns\nCpd5a4iMvIzkXwwdTEBBTO6F6qIi91g=\n-----END CERTIFICATE-----","type": "RS512"}'
+volumes:
+  db_data:
+

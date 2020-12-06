@@ -30,7 +30,6 @@ const IndexPage = () => {
         <div className="col-md-3 p-left-right-0">
           <div className="col-md-12 sliderMenu p-30 bg-gray">
             <OnlineUsersWrapper />
-            <p>lflflf</p>
           </div>
         </div>
       </div>

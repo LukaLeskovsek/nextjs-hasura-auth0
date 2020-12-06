@@ -1,25 +1,26 @@
 import React, { useEffect, Fragment, useState } from "react";
-import { useMutation, useSubscription } from "@apollo/react-hooks";
+import { useMutation, useQuery, useSubscription } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import OnlineUser from "./OnlineUser";
 
 const OnlineUsersWrapper = () => {
-  const [onlineIndicator, setOnlineIndicator] = useState(120000);
+  const [onlineIndicator, setOnlineIndicator] = useState(60000);
   let onlineUsersList;
+
   useEffect(() => {
     // Every 30s, run a mutation to tell the backend that you're online
-    console.log('=====================================================');
-    console.log('useEffect: Update Last Seen')
     try {
+      console.log('=====================================================');
+      console.log('useEffect: Update Last Seen')
       updateLastSeen();
     }
-    catch(error){
+    catch (error) {
       console.log('=====================================================');
       console.log('useEffect excute mutation')
       console.error(error)
     }
 
-    //setOnlineIndicator(setInterval(() => updateLastSeen(), 60000));
+    setOnlineIndicator(setInterval(() => updateLastSeen(), 60000));
 
     return () => {
       // Clean up
@@ -35,7 +36,6 @@ const OnlineUsersWrapper = () => {
       }
     }
   `;
-
   const [updateLastSeenMutation] = useMutation(UPDATE_LASTSEEN_MUTATION);
   const updateLastSeen = () => {
     // Use the apollo client to run a mutation to update the last_seen value
@@ -57,14 +57,31 @@ const OnlineUsersWrapper = () => {
     `
   );
 
+  // const { lo, er, dd } = useQuery(
+  //   gql`
+  //   query getOnlineUsers {
+  //     online_users(order_by: {user: {name: asc}}) {
+  //       id
+  //       user {
+  //         name
+  //         last_seen
+  //       }
+  //     }
+  //   }`
+  // );
+
+
   if (loading) {
-    return <span>Loading...</span>;
+    return <span>Checking online users...</span>;
   }
+
   if (error) {
     console.error(error);
     return <span>Error!</span>;
   }
+
   if (data) {
+    console.log('DATA:', data);
     onlineUsersList = data.online_users.map(u => (
       <OnlineUser key={u.id} user={u.user} />
     ));
