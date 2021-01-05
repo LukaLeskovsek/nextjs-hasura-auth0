@@ -11,8 +11,8 @@ const OnlineUsersWrapper = () => {
     // Every 30s, run a mutation to tell the backend that you're online
     try {
       console.log('=====================================================');
-      console.log('useEffect: Update Last Seen')
-      updateLastSeen();
+     // console.log('useEffect: Update Last Seen')
+   //   updateLastSeen();
     }
     catch (error) {
       console.log('=====================================================');
@@ -20,12 +20,12 @@ const OnlineUsersWrapper = () => {
       console.error(error)
     }
 
-    setOnlineIndicator(setInterval(() => updateLastSeen(), 60000));
+    ///setOnlineIndicator(setInterval(() => updateLastSeen(), 60000));
 
     return () => {
       // Clean up
       console.log('CLEANUP useEffect');
-      clearInterval(onlineIndicator);
+     // clearInterval(onlineIndicator);
     };
   }, []);
 
@@ -36,7 +36,7 @@ const OnlineUsersWrapper = () => {
       }
     }
   `;
-  const [updateLastSeenMutation] = useMutation(UPDATE_LASTSEEN_MUTATION);
+ // const [updateLastSeenMutation] = useMutation(UPDATE_LASTSEEN_MUTATION);
   const updateLastSeen = () => {
     // Use the apollo client to run a mutation to update the last_seen value
     updateLastSeenMutation({
@@ -44,31 +44,31 @@ const OnlineUsersWrapper = () => {
     });
   };
 
-  const { loading, error, data } = useSubscription(
-    gql`
-      subscription getOnlineUsers {
-        online_users(order_by: {user: {name: asc}, last_seen: asc}) {
-          id
-          user {
-            name
-          }
-        }
-      }
-    `
-  );
-
-  // const { loading, error, data } = useQuery(
+  // const { loading, error, data } = useSubscription(
   //   gql`
-  //   query getOnlineUsers {
-  //     online_users(order_by: {user: {name: asc}}) {
-  //       id
-  //       user {
-  //         name
+  //     subscription getOnlineUsers {
+  //       online_users(order_by: {user: {name: asc}, last_seen: asc}) {
+  //         id
+  //         user {
+  //           name
+  //         }
   //       }
   //     }
-  //   }
   //   `
   // );
+
+  const { loading, error, data } = useQuery(
+    gql`
+    query getOnlineUsers {
+      online_users(order_by: {user: {name: asc}}) {
+        id
+        user {
+          name
+        }
+      }
+    }
+    `
+  );
 
   if (loading) {
     return <span>Checking online users...</span>;

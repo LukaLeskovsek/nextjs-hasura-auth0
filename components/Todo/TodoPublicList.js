@@ -161,7 +161,7 @@ const TodoPublicList = props => {
 };
 
 const TodoPublicListSubscription = () => {
-  const { loading, error, data } = useSubscription(NOTIFY_NEW_PUBLIC_TODOS);
+ const { loading, error, data } = useSubscription(NOTIFY_NEW_PUBLIC_TODOS);
   if (loading) {
     return <span>Loading...</span>;
   }
